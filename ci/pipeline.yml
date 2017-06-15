@@ -3,7 +3,7 @@ resources:
 - name: attendee-service-source
   type: git
   source:
-    uri: https://github.com/mbajic/attendee-service
+    uri: https://github.com/mbajic/pcf-attendee-service-code
     branch: master
 
 - name: deploy-attendee-service
