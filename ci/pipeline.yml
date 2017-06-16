@@ -9,11 +9,11 @@ resources:
 - name: deploy-attendee-service
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-user}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    API: {{cf-api}}
+    USERNAME: {{cf-user}}
+    PASSWORD: {{cf-password}}
+    ORGANIZATION: {{cf-org}}
+    SPACE: {{cf-space}}
     skip_cert_check: true
 
 jobs:
@@ -35,16 +35,16 @@ jobs:
   - task: get-current-app-color
     file: attendee-service-source/ci/tasks/current-app-get-info.yml
     params:
-      app_suffix: {{cf-app-suffix}}
-      api: {{cf-api}}
-      username: {{cf-user}}
-      password: {{cf-password}}
-      organization: {{cf-org}}
-      space: {{cf-space}}
+      APP_SUFFIX: {{cf-app-suffix}}
+      API: {{cf-api}}
+      USERNAME: {{cf-user}}
+      PASSWORD: {{cf-password}}
+      ORGANIZATION: {{cf-org}}
+      SPACE: {{cf-space}}
   - task: prepare-app-manifest
     file: attendee-service-source/ci/tasks/app-manifest-prep.yml
     params:
-      app_suffix: {{cf-app-suffix}}
+      APP_SUFFIX: {{cf-app-suffix}}
 
   - task: package
     file: attendee-service-source/ci/tasks/package.yml
@@ -63,17 +63,17 @@ jobs:
   - task: get-current-app-color
     file: attendee-service-source/ci/tasks/current-app-get-info.yml
     params:
-      app_suffix: {{cf-app-suffix}}
-      api: {{cf-api}}
-      username: {{cf-user}}
-      password: {{cf-password}}
-      organization: {{cf-org}}
-      space: {{cf-space}}
+      APP_SUFFIX: {{cf-app-suffix}}
+      API: {{cf-api}}
+      USERNAME: {{cf-user}}
+      PASSWORD: {{cf-password}}
+      ORGANIZATION: {{cf-org}}
+      SPACE: {{cf-space}}
   - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
-      app_suffix: {{cf-app-suffix}}
-      app_domain: {{cf-app-domain}}
+      APP_SUFFIX: {{cf-app-suffix}}
+      APP_DOMAIN: {{cf-app-domain}}
 
 - name: promote-new-version
   serial: true
@@ -86,19 +86,19 @@ jobs:
   - task: get-current-app-color
     file: attendee-service-source/ci/tasks/current-app-get-info.yml
     params:
-      app_suffix: {{cf-app-suffix}}
-      api: {{cf-api}}
-      username: {{cf-user}}
-      password: {{cf-password}}
-      organization: {{cf-org}}
-      space: {{cf-space}}
+      APP_SUFFIX: {{cf-app-suffix}}
+      API: {{cf-api}}
+      USERNAME: {{cf-user}}
+      PASSWORD: {{cf-password}}
+      ORGANIZATION: {{cf-org}}
+      SPACE: {{cf-space}}
   - task: switch-app-routes
     file: attendee-service-source/ci/tasks/update-routes.yml
     params:
-      app_suffix: {{cf-app-suffix}}
-      app_domain: {{cf-app-domain}}
-      api: {{cf-api}}
-      username: {{cf-user}}
-      password: {{cf-password}}
-      organization: {{cf-org}}
-      space: {{cf-space}}
+      APP_SUFFIX: {{cf-app-suffix}}
+      APP_DOMAIN: {{cf-app-domain}}
+      API: {{cf-api}}
+      USERNAME: {{cf-user}}
+      PASSWORD: {{cf-password}}
+      ORGANIZATION: {{cf-org}}
+      SPACE: {{cf-space}}

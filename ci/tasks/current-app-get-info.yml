@@ -7,10 +7,6 @@ image_resource:
     repository: pivotalservices/docker-concourse-cf-tools
     tag: "latest"
 
-params:
-  api:
-  username:
-
 inputs:
 - name: attendee-service-source
 
