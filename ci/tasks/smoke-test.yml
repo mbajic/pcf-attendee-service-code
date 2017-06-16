@@ -7,10 +7,6 @@ image_resource:
     repository: ubuntu
     tag: "latest"
 
-params:
-  app_suffix:
-  app_domain:
-
 inputs:
 - name: attendee-service-source
 - name: current-app-info

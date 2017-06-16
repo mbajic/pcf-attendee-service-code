@@ -1,18 +1,18 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 pwd
 env
 
 cf api $API --skip-ssl-validation
 
-cf login -u USERNAME -p $PWS_PWD -o "$ORGANIZATION" -s "$SPACE"
+cf login -u $USERNAME -p $PASSWORD -o "$ORGANIZATION" -s "$SPACE"
 
 cf apps
 
 set +e
-cf apps | grep "main-$APP_SUFFIX" | grep green
+cf apps | grep "main-$app_suffix" | grep green
 if [ $? -eq 0 ]
 then
   echo "green" > ./current-app-info/current-app.txt
