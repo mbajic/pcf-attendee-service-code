@@ -12,7 +12,7 @@ cf login -u $USERNAME -p $PASSWORD -o "$ORGANIZATION" -s "$SPACE"
 cf apps
 
 set +e
-cf apps | grep "$app_suffix" | grep green
+cf apps | grep "main-$app_suffix" | grep green
 if [ $? -eq 0 ]
 then
   echo "green" > ./current-app-info/current-app.txt
