@@ -9,11 +9,11 @@ resources:
 - name: deploy-attendee-service
   type: cf
   source:
-    api: https://api.run.pivotal.io
+    api: {{cf-api}}
     username: {{cf-user}}
     password: {{cf-password}}
-    organization: mbajic
-    space: development
+    organization: {{cf-org}}
+    space: {{cf-space}}
     skip_cert_check: true
 
 jobs:
@@ -27,10 +27,25 @@ jobs:
 
 - name: deploy
   public: true
+  serial: true
   plan:
   - get: attendee-service-source
     trigger: true
     passed: [test]
+  - task: get-current-app-color
+    file: attendee-service-source/ci/tasks/current-app-get-info.yml
+    params:
+      app_suffix: {{cf-app-suffix}}
+      api: {{cf-api}}
+      username: {{cf-user}}
+      password: {{cf-password}}
+      organization: {{cf-org}}
+      space: {{cf-space}}
+  - task: prepare-app-manifest
+    file: attendee-service-source/ci/tasks/app-manifest-prep.yml
+    params:
+      app_suffix: {{cf-app-suffix}}
+
   - task: package
     file: attendee-service-source/ci/tasks/package.yml
   - put: deploy-attendee-service
@@ -38,13 +53,52 @@ jobs:
       manifest: attendee-service-source/manifest.yml
       path: package-output/attendee-service.jar
 
-- name: smoke_test
+- name: smoke-test
   public: true
+  serial: true
   plan:
   - get: attendee-service-source
     trigger: true
     passed: [deploy]
-  - task: smoke_test
+  - task: get-current-app-color
+    file: attendee-service-source/ci/tasks/current-app-get-info.yml
+    params:
+      app_suffix: {{cf-app-suffix}}
+      api: {{cf-api}}
+      username: {{cf-user}}
+      password: {{cf-password}}
+      organization: {{cf-org}}
+      space: {{cf-space}}
+  - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
-      ATTENDEE_SERVICE_URL: https://attendee-service-freemasonic-stoplessness.cfapps.io
+      app_suffix: {{cf-app-suffix}}
+      app_domain: {{cf-app-domain}}
+
+- name: promote-new-version
+  serial: true
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed:
+      - smoke-test
+  - task: get-current-app-color
+    file: attendee-service-source/ci/tasks/current-app-get-info.yml
+    params:
+      app_suffix: {{cf-app-suffix}}
+      api: {{cf-api}}
+      username: {{cf-user}}
+      password: {{cf-password}}
+      organization: {{cf-org}}
+      space: {{cf-space}}
+  - task: switch-app-routes
+    file: attendee-service-source/ci/tasks/update-routes.yml
+    params:
+      app_suffix: {{cf-app-suffix}}
+      app_domain: {{cf-app-domain}}
+      api: {{cf-api}}
+      username: {{cf-user}}
+      password: {{cf-password}}
+      organization: {{cf-org}}
+      space: {{cf-space}}

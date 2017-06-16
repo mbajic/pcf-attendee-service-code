@@ -1,5 +1,5 @@
 applications:
-- name: attendee-service
+- name: APPNAME
   instances: 1
   memory: 1024M
   disk_quota: 1024M
