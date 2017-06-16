@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -ex
+set -e
+
+env
 
 export NEXT_APP_COLOR=$(cat ./current-app-info/next-app.txt)
 export NEXT_APP_URL=http://$NEXT_APP_COLOR-$APP_SUFFIX.$APP_DOMAIN/

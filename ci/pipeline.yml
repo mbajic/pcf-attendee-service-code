@@ -45,12 +45,11 @@ jobs:
     file: attendee-service-source/ci/tasks/app-manifest-prep.yml
     params:
       APP_SUFFIX: {{cf-app-suffix}}
-
   - task: package
     file: attendee-service-source/ci/tasks/package.yml
   - put: deploy-attendee-service
     params:
-      manifest: attendee-service-source/manifest.yml
+      manifest: app-manifest-output/manifest.yml
       path: package-output/attendee-service.jar
 
 - name: smoke-test
